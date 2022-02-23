@@ -1,4 +1,4 @@
-// const registerRouter = require("./backend/router");
+const registerRouter = require("./backend/router");
 
 module.exports = {
   css: {
@@ -12,11 +12,11 @@ module.exports = {
       },
     },
   },
-  // devServer: {
-  //   before(app) {
-  //     registerRouter(app);
-  //   },
-  // },
+  devServer: {
+    before(app) {
+      registerRouter(app);
+    },
+  },
   configureWebpack: (config) => {
     if (process.env.npm_config_report) {
       const BundleAnalyzerPlugin =
