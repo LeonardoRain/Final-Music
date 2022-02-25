@@ -1,6 +1,7 @@
 import { computed, ref } from "vue";
 
 export default function useShortcut(props, groupRef) {
+  // 单个锚点的高度
   const ANCHOR_HEIGHT = 18;
 
   const scrollRef = ref(null);
@@ -29,8 +30,6 @@ export default function useShortcut(props, groupRef) {
     scrollTo(anchorIndex);
   }
 
-  function onShortcutTouchEnd(e) {}
-
   // 滚动到目标位置
   function scrollTo(index) {
     if (isNaN(index)) {
@@ -48,6 +47,5 @@ export default function useShortcut(props, groupRef) {
     scrollRef,
     onShortcutTouchStart,
     onShortcutTouchMove,
-    onShortcutTouchEnd,
   };
 }

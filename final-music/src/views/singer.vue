@@ -1,6 +1,7 @@
 <template>
   <div class="singer" v-loading="!singers.length">
-    <index-list :data="singers"></index-list>
+    <index-list :data="singers" @selectSinger="handleSelectSinger"></index-list>
+    <router-view :singer="selectedSinger"></router-view>
   </div>
 </template>
 
@@ -14,12 +15,20 @@ export default {
   data() {
     return {
       singers: [],
-      loadingText: "正在载入...",
+      selectedSinger: null,
     };
   },
   async created() {
     const result = await getSingerList();
     this.singers = result.singers;
+  },
+  methods: {
+    handleSelectSinger(singer) {
+      this.selectedSinger = singer;
+      this.$router.push({
+        path: `/singer/${singer.mid}`,
+      });
+    },
   },
 };
 </script>
