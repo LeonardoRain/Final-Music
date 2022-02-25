@@ -1,5 +1,5 @@
 <template>
-  <scroll class="index-list" :probe-type="3" @scroll="onScroll">
+  <scroll class="index-list" :probe-type="3" @scroll="onScroll" ref="scrollRef">
     <ul ref="groupRef">
       <li v-for="group in data" :key="group.title" class="group">
         <h2 class="title">{{ group.title }}</h2>
@@ -14,12 +14,31 @@
     <div v-show="fixedTitle" class="fixed" :style="fixedStyle">
       <div class="fixed-title">{{ fixedTitle }}</div>
     </div>
+    <div
+      class="shortcut"
+      @touchstart.stop.prevent="onShortcutTouchStart"
+      @touchmove.stop.prevent="onShortcutTouchMove"
+      @touchend.stop.prevent="onShortcutTouchEnd"
+    >
+      <ul>
+        <li
+          v-for="(item, index) in shortcutList"
+          :key="item"
+          :data-index="index"
+          class="item"
+          :class="{ current: currentIndex === index }"
+        >
+          {{ item }}
+        </li>
+      </ul>
+    </div>
   </scroll>
 </template>
 
 <script>
 import Scroll from "@/components/base/scroll/scroll";
 import useFixed from "./use-fixed";
+import useShortcut from "./use-shortcut";
 
 export default {
   name: "index-list",
@@ -33,12 +52,29 @@ export default {
     },
   },
   setup(props) {
-    const { groupRef, onScroll, fixedTitle, fixedStyle } = useFixed(props);
+    // 头部固定标题栏
+    const { groupRef, onScroll, fixedTitle, fixedStyle, currentIndex } =
+      useFixed(props);
+    // 右侧快捷导航栏
+    const {
+      shortcutList,
+      scrollRef,
+      onShortcutTouchStart,
+      onShortcutTouchMove,
+      onShortcutTouchEnd,
+    } = useShortcut(props, groupRef);
+
     return {
       groupRef,
+      scrollRef,
       onScroll,
       fixedTitle,
       fixedStyle,
+      currentIndex,
+      shortcutList,
+      onShortcutTouchStart,
+      onShortcutTouchMove,
+      onShortcutTouchEnd,
     };
   },
 };
@@ -46,71 +82,72 @@ export default {
 
 <style lang="scss" scoped>
 .index-list {
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	background: $color-background;
-	.group {
-		padding-bottom: 30px;
-		.title {
-			padding-left: 20px;
-			height: 30px;
-			background: $color-highlight-background;
-			line-height: 30px;
-			font-size: $font-size-small;
-			color: $color-text-w;
-		}
-		.item {
-			display: flex;
-			align-items: center;
-			padding: 20px 0 0 30px;
-			.avatar {
-				border-radius: 50%;
-				width: 50px;
-				height: 50px;
-			}
-			.name {
-				margin-left: 20px;
-				font-size: $font-size-medium;
-				color: $color-text-l;
-			}
-		}
-	}
-	.fixed {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		.fixed-title {
-			padding-left: 20px;
-			height: 30px;
-			background: $color-highlight-background;
-			line-height: 30px;
-			font-size: $font-size-small;
-			color: $color-text-w;
-		}
-	}
-	.shortcut {
-		position: absolute;
-		right: 4px;
-		top: 50%;
-		padding: 20px 0;
-		border-radius: 10px;
-		width: 20px;
-		background: $color-background-d;
-		text-align: center;
-		font-family: Helvetica;
-		transform: translateY(-50%);
-		.item {
-			padding: 3px;
-			line-height: 1;
-			font-size: $font-size-small;
-			color: $color-text-l;
-			&.current {
-				color: $color-theme;
-			}
-		}
-	}
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: $color-background;
+  .group {
+    padding-bottom: 30px;
+    .title {
+      padding-left: 20px;
+      height: 30px;
+      background: $color-highlight-background;
+      line-height: 30px;
+      font-size: $font-size-small;
+      color: $color-text-w;
+    }
+    .item {
+      display: flex;
+      align-items: center;
+      padding: 20px 0 0 30px;
+      .avatar {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+      }
+      .name {
+        margin-left: 20px;
+        font-size: $font-size-medium;
+        color: $color-text-l;
+      }
+    }
+  }
+  .fixed {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    width: 100%;
+    border-bottom: 1px solid #add1e2;
+    .fixed-title {
+      padding-left: 20px;
+      height: 30px;
+      background: $color-highlight-background;
+      line-height: 30px;
+      font-size: $font-size-small;
+      color: $color-text-w;
+    }
+  }
+  .shortcut {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    padding: 20px 0;
+    border-radius: 10px;
+    width: 20px;
+    background: $color-background-d;
+    text-align: center;
+    font-family: Helvetica;
+    transform: translateY(-50%);
+    .item {
+      padding: 3px;
+      line-height: 1;
+      font-size: $font-size-small;
+      color: $color-text-l;
+      &.current {
+        color: $color-theme;
+      }
+    }
+  }
 }
 </style>
