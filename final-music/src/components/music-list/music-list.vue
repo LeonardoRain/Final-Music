@@ -5,9 +5,16 @@
     </div>
     <h1 class="title">{{ title }}</h1>
     <div class="bg-image" :style="bgImageStyle" ref="bgImg">
-      <div class="filter"></div>
+      <div class="filter" :style="filterStyle"></div>
     </div>
-    <scroll class="list" v-loading="loading" :style="scrollStyle">
+    <scroll
+      class="list"
+      v-loading="loading"
+      v-no-result:[noRestultText]="noResult"
+      :style="scrollStyle"
+      :probe-type="3"
+      @scroll="onScroll"
+    >
       <div class="song-list-wrapper">
         <song-list :songs="songs"></song-list>
       </div>
@@ -18,6 +25,9 @@
 <script>
 import Scroll from "@/components/base/scroll/scroll";
 import SongList from "@/components/base/song-list/song-list";
+
+// 顶部标题预留高度
+const RESERVED_HEIGHT = 60;
 
 export default {
   name: "music-list",
@@ -35,16 +45,42 @@ export default {
     title: String,
     pic: String,
     loading: Boolean,
+    noRestultText: {
+      type: String,
+      default: "这里空空如也...",
+    },
   },
   data() {
     return {
       imageHeight: 0,
+      scrollY: 0,
+      maxTranslateY: 0,
     };
   },
   computed: {
     bgImageStyle() {
+      const scrollY = this.scrollY;
+      let zIndex = 0;
+      let paddingTop = "75%";
+      let height = 0;
+      let translateZ = 0;
+      if (scrollY > this.maxTranslateY) {
+        zIndex = 10;
+        paddingTop = 0;
+        height = `${RESERVED_HEIGHT}px`;
+        translateZ = 1;
+      }
+      let scale = 1;
+      if (scrollY < 0) {
+        scale = 1 + Math.abs(scrollY / this.imageHeight);
+      }
       return {
+        zIndex,
+        paddingTop,
+        height,
+        translateZ,
         backgroundImage: `url(${this.pic})`,
+        transform: `scale(${scale}) translateZ(${translateZ}px)`,
       };
     },
     scrollStyle() {
@@ -52,16 +88,34 @@ export default {
         top: `${this.imageHeight}px`,
       };
     },
+    filterStyle() {
+      let blur = 0;
+      const scrollY = this.scrollY;
+      const imageHeight = this.imageHeight;
+      if (scrollY >= 0) {
+        blur =
+          Math.min(this.maxTranslateY / imageHeight, scrollY / imageHeight) *
+          20;
+      }
+      return {
+        backdropFilter: `blur(${blur}px)`,
+      };
+    },
+    noResult() {
+      return !this.loading && !this.songs.length;
+    },
   },
   methods: {
     goBack() {
       this.$router.push("/singer");
     },
+    onScroll(pos) {
+      this.scrollY = -pos.y;
+    },
   },
   mounted() {
-    console.log("this.$refs.bgImg", this.$refs.bgImg);
     this.imageHeight = this.$refs.bgImg.clientHeight;
-    console.log("this.imageHeight", this.imageHeight);
+    this.maxTranslateY = this.imageHeight - RESERVED_HEIGHT;
   },
 };
 </script>
@@ -75,7 +129,7 @@ export default {
 		left: 6px;
 		top: 0;
 		z-index: 20;
-		margin-top: 8px;
+		margin-top: 10px;
 		transform: translateZ(2px);
 		.icon-back {
 			display: block;
@@ -89,7 +143,7 @@ export default {
 		left: 10%;
 		top: 0;
 		z-index: 20;
-		margin-top: 9px;
+		margin-top: 10px;
 		width: 80%;
 		line-height: 40px;
 		text-align: center;
@@ -101,7 +155,6 @@ export default {
 	}
 	.bg-image {
 		position: relative;
-		padding-top: 75%;
 		width: 100%;
 		background-size: cover;
 		transform-origin: top;
@@ -143,7 +196,6 @@ export default {
 		}
 	}
 	.list {
-		overflow: hidden;
 		position: absolute;
 		bottom: 0;
 		z-index: 0;
