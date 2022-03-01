@@ -26,7 +26,10 @@
             <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-not-like"></i>
+            <i
+              :class="getFavoriteIcon(currentSong)"
+              @click="toggleFavorite(currentSong)"
+            ></i>
           </div>
         </div>
       </div>
@@ -44,30 +47,38 @@
 import { computed, watch, ref } from "vue";
 import { useStore } from "vuex";
 import useMode from "./useMode";
+import useFavorite from "./useFavorite";
 
 export default {
   name: "player",
   setup() {
+    // ----------------- data -----------------
     const audioRef = ref(null);
     // 当前歌曲是否准备好播放
     const songReady = ref(false);
+    // ----------------- store -----------------
     const store = useStore();
     const fullScreen = computed(() => store.state.fullScreen);
     const currentSong = computed(() => store.getters.currentSong);
     const playing = computed(() => store.state.playing);
     const currentIndex = computed(() => store.state.currentIndex);
     const playlist = computed(() => store.state.playlist);
+    // ----------------- hooks -----------------
+    // 使用 播放模式 相关 hook
+    const { modeIcon, changeMode } = useMode();
+    // 使用 喜欢 相关 hook
+    const { getFavoriteIcon, toggleFavorite } = useFavorite();
+
+    // ----------------- computed -----------------
     // 播放 / 暂停 按钮，动态样式
     const playIcon = computed(() => {
       return playing.value ? "icon-pause" : "icon-play";
     });
-    // 播放模式按钮样式
-    const { modeIcon, changeMode } = useMode();
     // 按钮禁用样式
     const disableCls = computed(() => {
       return songReady.value ? "" : "disable";
     });
-
+    // ----------------- watch -----------------
     // 监听当前歌曲的变化，控制歌曲播放
     watch(currentSong, (newSong) => {
       if (!newSong.id || !newSong.url) {
@@ -78,7 +89,6 @@ export default {
       audioEl.src = newSong.url;
       audioEl.play();
     });
-
     // 监听 playing 的状态，控制播放 / 暂停
     watch(playing, (newPlaying) => {
       if (!songReady.value) {
@@ -87,12 +97,11 @@ export default {
       const audioEl = audioRef.value;
       newPlaying ? audioEl.play() : audioEl.pause();
     });
-
+    // ----------------- methods -----------------
     // 收起播放器全屏
     function goback() {
       store.commit("setFullScreen", false);
     }
-
     // 播放 or 暂停
     function togglePlay() {
       if (!songReady.value) {
@@ -100,12 +109,10 @@ export default {
       }
       store.commit("setPlayingState", !playing.value);
     }
-
     // 监听播放器非用户触发的 pause 事件，修改播放状态
     function pause() {
       store.commit("setPlayingState", false);
     }
-
     // 点击上一首歌曲
     function prev() {
       const list = playlist.value;
@@ -127,7 +134,6 @@ export default {
         }
       }
     }
-
     // 点击下一首歌曲
     function next() {
       const list = playlist.value;
@@ -149,14 +155,12 @@ export default {
         }
       }
     }
-
     // 循环播放当前歌曲
     function loop() {
       const audioEl = audioRef.value;
       audioEl.currentTime = 0;
       audioEl.play();
     }
-
     // canplay 回调函数
     function ready() {
       if (songReady.value) {
@@ -164,20 +168,26 @@ export default {
       }
       songReady.value = true;
     }
-
     // 如果歌曲有问题，手动将 songReady 置为 true，以便播放其他歌曲
     function error() {
       songReady.value = true;
     }
 
     return {
+      // data
       audioRef,
+      // store
       fullScreen,
       currentSong,
+      // computed
       playIcon,
+      disableCls,
+      // hooks
       modeIcon,
       changeMode,
-      disableCls,
+      getFavoriteIcon,
+      toggleFavorite,
+      // methods
       goback,
       togglePlay,
       pause,
@@ -382,6 +392,9 @@ export default {
 				.icon {
 					flex: 1;
 					color: $color-theme;
+					.like-color {
+						color: #d81e06;
+					}
 					&.disable {
 						color: $color-theme-d;
 					}
@@ -396,7 +409,7 @@ export default {
 					padding: 0 20px;
 					text-align: center;
 					i {
-						font-size: 40px;
+						font-size: 50px;
 					}
 				}
 				.i-right {
