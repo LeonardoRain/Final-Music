@@ -16,6 +16,7 @@ module.exports = {
     "comma-dangle": "off",
     "space-before-function-paren": "off",
     "no-tabs": "off",
+    indent: "off",
     "vue/no-parsing-error": [
       2,
       {

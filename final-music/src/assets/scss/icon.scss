@@ -1,9 +1,10 @@
 @font-face {
-	src: url("../fonts/music-icon.eot?2qevqt");
-	src: url("../fonts/music-icon.eot?2qevqt#iefix") format("embedded-opentype"),
-	url("../fonts/music-icon.ttf?2qevqt") format("truetype"),
-	url("../fonts/music-icon.woff?2qevqt") format("woff"),
-	url("../fonts/music-icon.svg?2qevqt#music-icon") format("svg");
+	src: url("../fonts/music-icon.eot?t=1646104547879");
+	src: url("../fonts/music-icon.eot?t=1646104547879#iefix")
+	format("embedded-opentype"),
+	url("../fonts/music-icon.ttf?t=1646104547879") format("truetype"),
+	url("../fonts/music-icon.woff?t=1646104547879") format("woff"),
+	url("../fonts/music-icon.svg?t=1646104547879#iconfont") format("svg");
 	font-family: "music-icon";
 	font-style: normal;
 	font-weight: normal;
@@ -25,90 +26,115 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-ok:before {
-	content: "\e900";
-}
+.iconfont {
+	font-family: "iconfont" !important;
+	font-style: normal;
+	font-size: 16px;
 
-.icon-close:before {
-	content: "\e901";
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 .icon-add:before {
-	content: "\e902";
-}
-
-.icon-play-mini:before {
-	content: "\e903";
-}
-
-.icon-playlist:before {
-	content: "\e904";
+	content: "\e6cd";
 }
 
 .icon-music:before {
-	content: "\e905";
+	content: "\e665";
 }
 
-.icon-search:before {
-	content: "\e906";
-}
-
-.icon-clear:before {
-	content: "\e907";
-}
-
-.icon-delete:before {
-	content: "\e908";
-}
-
-.icon-favorite:before {
-	content: "\e909";
-}
-
-.icon-not-favorite:before {
-	content: "\e90a";
-}
-
-.icon-pause:before {
-	content: "\e90b";
+.icon-play-mini:before {
+	content: "\e632";
 }
 
 .icon-play:before {
-	content: "\e90c";
-}
-
-.icon-prev:before {
-	content: "\e90d";
-}
-
-.icon-loop:before {
-	content: "\e90e";
-}
-
-.icon-sequence:before {
-	content: "\e90f";
-}
-
-.icon-random:before {
-	content: "\e910";
-}
-
-.icon-back:before {
-	content: "\e911";
-}
-
-.icon-mine:before {
-	content: "\e912";
-}
-
-.icon-next:before {
-	content: "\e913";
-}
-
-.icon-dismiss:before {
-	content: "\e914";
+	content: "\e89b";
 }
 
 .icon-pause-mini:before {
-	content: "\e915";
+	content: "\e650";
+}
+
+.icon-pause:before {
+	content: "\e89c";
+}
+
+.icon-close:before {
+	content: "\e604";
+}
+
+.icon-ok:before {
+	content: "\e66f";
+}
+
+.icon-dismiss:before {
+	content: "\e644";
+}
+
+.icon-play-fill:before {
+	content: "\e72f";
+}
+
+.icon-no-copy:before {
+	content: "\e89d";
+}
+
+.icon-add-copy:before {
+	content: "\e89e";
+}
+
+.icon-sequence:before {
+	content: "\e601";
+}
+
+.icon-search:before {
+	content: "\e65a";
+}
+
+.icon-clear:before {
+	content: "\e633";
+}
+
+.icon-my:before {
+	content: "\e78b";
+}
+
+.icon-mine:before {
+	content: "\e610";
+}
+
+.icon-back:before {
+	content: "\e679";
+}
+
+.icon-down:before {
+	content: "\e65e";
+}
+
+.icon-loop:before {
+	content: "\e85a";
+}
+
+.icon-like:before {
+	content: "\e707";
+}
+
+.icon-not-like:before {
+	content: "\e708";
+}
+
+.icon-playlist:before {
+	content: "\e600";
+}
+
+.icon-random:before {
+	content: "\e73a";
+}
+
+.icon-prev:before {
+	content: "\e896";
+}
+
+.icon-next:before {
+	content: "\e89a";
 }

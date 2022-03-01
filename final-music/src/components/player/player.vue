@@ -14,7 +14,7 @@
       <div class="bottom">
         <div class="operators">
           <div class="icon i-left">
-            <i class="icon-sequence"></i>
+            <i :class="modeIcon" @click="changeMode"></i>
           </div>
           <div class="icon i-left" :class="disableCls">
             <i class="icon-prev" @click="prev"></i>
@@ -26,7 +26,7 @@
             <i class="icon-next" @click="next"></i>
           </div>
           <div class="icon i-right">
-            <i class="icon-not-favorite"></i>
+            <i class="icon-not-like"></i>
           </div>
         </div>
       </div>
@@ -43,6 +43,7 @@
 <script>
 import { computed, watch, ref } from "vue";
 import { useStore } from "vuex";
+import useMode from "./useMode";
 
 export default {
   name: "player",
@@ -60,6 +61,8 @@ export default {
     const playIcon = computed(() => {
       return playing.value ? "icon-pause" : "icon-play";
     });
+    // 播放模式按钮样式
+    const { modeIcon, changeMode } = useMode();
     // 按钮禁用样式
     const disableCls = computed(() => {
       return songReady.value ? "" : "disable";
@@ -172,6 +175,8 @@ export default {
       fullScreen,
       currentSong,
       playIcon,
+      modeIcon,
+      changeMode,
       disableCls,
       goback,
       togglePlay,
