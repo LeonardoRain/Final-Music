@@ -11,8 +11,13 @@
         <h1 class="title">{{ currentSong.name }}</h1>
         <h2 class="subtitle">{{ currentSong.singer }}</h2>
       </div>
-      <div class="middle">
-        <div class="middle-l">
+      <div
+        class="middle"
+        @touchstart.prevent="onMiddleTouchStart"
+        @touchmove.prevent="onMiddleTouchMove"
+        @touchend.prevent="onMiddleTouchEnd"
+      >
+        <div class="middle-l" :style="middleLStyle">
           <div class="pointer-wrapper">
             <div class="pointer-head"></div>
             <img
@@ -32,9 +37,35 @@
               />
             </div>
           </div>
+          <div class="playing-lyric-wrapper">
+            <div class="playing-lyric">
+              {{ playingLyric }}
+            </div>
+          </div>
         </div>
+        <scroll ref="lyricScrollRef" class="middle-r" :style="middleRStyle">
+          <div class="lyric-wrapper">
+            <div v-if="currentLyric" ref="lyricListRef">
+              <p
+                class="text"
+                :class="{ current: currentLineNum === index }"
+                v-for="(line, index) in currentLyric.lines"
+                :key="line.num"
+              >
+                {{ line.txt }}
+              </p>
+            </div>
+            <div class="pure-music" v-show="pureMusicLyric">
+              <p>{{ pureMusicLyric }}</p>
+            </div>
+          </div>
+        </scroll>
       </div>
       <div class="bottom">
+        <div class="dot-wrapper">
+          <span class="dot" :class="{ active: currentShow === 'cd' }"></span>
+          <span class="dot" :class="{ active: currentShow === 'lyric' }"></span>
+        </div>
         <div class="progress-wrapper">
           <span class="time time-l" :class="cTimeClass">
             {{ formatTime(currentTime) }}
@@ -90,14 +121,17 @@ import useMode from "./useMode";
 import useFavorite from "./useFavorite";
 import useCd from "./use-cd";
 import useLyric from "./use-lyric";
+import useMiddleInteractive from "./use-middle-interactive";
 import ProgressBar from "./progress-bar.vue";
 import { formatTime } from "@/assets/js/util.js";
 import { PLAY_MODE } from "@/assets/js/constant";
+import Scroll from "@/components/base/scroll/scroll";
 
 export default {
   name: "player",
   components: {
     ProgressBar,
+    Scroll,
   },
   setup() {
     // ----------------- data -----------------
@@ -124,8 +158,25 @@ export default {
     // 使用 cd 相关 hook
     const { cdCls, pointerCls, cdRef, cdImageRef } = useCd();
     // 使用 歌词 相关 hook
-    useLyric();
-
+    const {
+      currentLyric,
+      currentLineNum,
+      pureMusicLyric,
+      playingLyric,
+      playLyric,
+      stopLyric,
+      lyricScrollRef,
+      lyricListRef,
+    } = useLyric(songReady, currentTime);
+    // 使用 切换浮层 相关 hook
+    const {
+      currentShow,
+      middleLStyle,
+      middleRStyle,
+      onMiddleTouchStart,
+      onMiddleTouchMove,
+      onMiddleTouchEnd,
+    } = useMiddleInteractive();
     // ----------------- computed -----------------
     // 播放 / 暂停 按钮，动态样式
     const playIcon = computed(() => {
@@ -160,7 +211,13 @@ export default {
         return;
       }
       const audioEl = audioRef.value;
-      newPlaying ? audioEl.play() : audioEl.pause();
+      if (newPlaying) {
+        audioEl.play();
+        playLyric();
+      } else {
+        audioEl.pause();
+        stopLyric();
+      }
     });
     // ----------------- methods -----------------
     // 收起播放器全屏
@@ -233,6 +290,7 @@ export default {
         return;
       }
       songReady.value = true;
+      playLyric();
     }
     // 如果歌曲有问题，手动将 songReady 置为 true，以便播放其他歌曲
     function error() {
@@ -257,12 +315,16 @@ export default {
     function handleProgressChanging(progress) {
       isTouching.value = true;
       currentTime.value = currentSong.value.duration * progress;
+      // 托动时，先同步歌词位置到currentTime的位置，然后停住
+      playLyric();
+      stopLyric();
     }
     // 处理进度条拖动结束
     function handleProgressChanged(progress) {
       isTouching.value = false;
       audioRef.value.currentTime = currentTime.value =
         currentSong.value.duration * progress;
+      playLyric();
     }
 
     return {
@@ -286,6 +348,18 @@ export default {
       pointerCls,
       cdRef,
       cdImageRef,
+      currentLyric,
+      currentLineNum,
+      pureMusicLyric,
+      playingLyric,
+      lyricScrollRef,
+      lyricListRef,
+      currentShow,
+      middleLStyle,
+      middleRStyle,
+      onMiddleTouchStart,
+      onMiddleTouchMove,
+      onMiddleTouchEnd,
       // methods
       goback,
       togglePlay,
@@ -307,289 +381,291 @@ export default {
 
 <style lang="scss" scoped>
 .player {
-  .normal-player {
-    position: fixed;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    z-index: 150;
-    background: $color-background-b;
-    .background {
-      position: absolute;
-      left: 0;
-      top: 0;
-      z-index: -1;
-      width: 100%;
-      height: 100%;
-      filter: blur(20px);
-      opacity: 0.6;
+	.normal-player {
+		position: fixed;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 150;
+		background: $color-background-b;
+		.background {
+			position: absolute;
+			left: 0;
+			top: 0;
+			z-index: -1;
+			width: 100%;
+			height: 100%;
+			filter: blur(20px);
+			opacity: .6;
 
-      img {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    .top {
-      position: relative;
-      margin-top: 10px;
-      margin-bottom: 25px;
-      .back {
-        position: absolute;
-        left: 6px;
-        top: 0;
-        z-index: 50;
-      }
-      .icon-back {
-        display: block;
-        padding: 9px;
-        font-size: $font-size-large-x;
-        color: $color-theme;
-        transform: rotate(-90deg);
-      }
-      .title {
-        margin: 0 auto;
-        width: 70%;
-        line-height: 40px;
-        text-align: center;
-        font-size: $font-size-large;
-        color: $color-theme;
+			img {
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.top {
+			position: relative;
+			margin-top: 10px;
+			margin-bottom: 25px;
+			.back {
+				position: absolute;
+				left: 6px;
+				top: 0;
+				z-index: 50;
+			}
+			.icon-back {
+				display: block;
+				padding: 9px;
+				font-size: $font-size-large-x;
+				color: $color-theme;
+				transform: rotate(-90deg);
+			}
+			.title {
+				margin: 0 auto;
+				width: 70%;
+				line-height: 40px;
+				text-align: center;
+				font-size: $font-size-large;
+				color: $color-theme;
 
-        @include no-wrap();
-      }
-      .subtitle {
-        margin: 0 10px;
-        line-height: 20px;
-        text-align: center;
-        font-size: $font-size-medium;
-        color: $color-theme;
+				@include no-wrap();
+			}
+			.subtitle {
+				margin: 0 10px;
+				line-height: 20px;
+				text-align: center;
+				font-size: $font-size-medium;
+				color: $color-theme;
 
-        @include no-wrap();
-      }
-    }
-    .middle {
-      position: fixed;
-      top: 80px;
-      bottom: 170px;
-      width: 100%;
-      font-size: 0;
-      white-space: nowrap;
-      .middle-l {
-        display: inline-block;
-        position: relative;
-        padding-top: 80%;
-        width: 100%;
-        height: 0;
-        vertical-align: top;
-        .pointer-wrapper {
-          position: absolute;
-          top: 0;
-          padding-top: 100%;
-          width: 100%;
-          height: 0;
-          .pointer-head {
-            position: absolute;
-            left: 47%;
-            top: 5%;
-            border: 1px solid rgba(222, 222, 222, 0.5);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            background: rgba(19, 19, 19, 0.5);
-            transform: translate(-3px, -5px);
-          }
-          .cd-poiner {
-            position: absolute;
-            left: 47%;
-            top: 5%;
-            z-index: 100;
-            width: 20%;
-            transform: rotate(-45deg);
-            transform-origin: 12px 10.7px;
-            transition: all 0.5s;
-          }
-          .playing-pointer {
-            transform: rotate(0deg);
-            transform-origin: 12px 10.7px;
-            transition: all 0.5s;
-          }
-        }
+				@include no-wrap();
+			}
+		}
+		.middle {
+			position: fixed;
+			top: 80px;
+			bottom: 170px;
+			width: 100%;
+			font-size: 0;
+			white-space: nowrap;
+			.middle-l {
+				display: inline-block;
+				/* display: none; */
+				position: relative;
+				padding-top: 80%;
+				width: 100%;
+				height: 0;
+				vertical-align: top;
+				.pointer-wrapper {
+					position: absolute;
+					top: 0;
+					padding-top: 100%;
+					width: 100%;
+					height: 0;
+					.pointer-head {
+						position: absolute;
+						left: 47%;
+						top: 5%;
+						border: 1px solid rgba(222, 222, 222, .5);
+						border-radius: 50%;
+						width: 30px;
+						height: 30px;
+						background: rgba(19, 19, 19, .5);
+						transform: translate(-3px, -5px);
+					}
+					.cd-poiner {
+						position: absolute;
+						left: 47%;
+						top: 5%;
+						z-index: 100;
+						width: 20%;
+						transform: rotate(-45deg);
+						transform-origin: 12px 10.7px;
+						transition: all .5s;
+					}
+					.playing-pointer {
+						transform: rotate(0deg);
+						transform-origin: 12px 10.7px;
+						transition: all .5s;
+					}
+				}
 
-        .cd-wrapper {
-          position: absolute;
-          left: 10%;
-          top: 22%;
-          box-sizing: border-box;
-          width: 80%;
-          height: 100%;
-          .cd {
-            border-radius: 50%;
-            width: 100%;
-            height: 100%;
-            img {
-              position: absolute;
-              left: 0;
-              top: 0;
-              box-sizing: border-box;
-              padding: 50px;
-              border: 10px solid rgba(255, 255, 255, 0.1);
-              border-radius: 50%;
-              width: 100%;
-              height: 100%;
-              background-image: url("../../assets/images/cd-outter.png");
-              background-repeat: no-repeat;
-              background-size: 100%;
-            }
-            .playing-cd {
-              animation: rotate 20s linear infinite;
-            }
-          }
-        }
-        .playing-lyric-wrapper {
-          overflow: hidden;
-          margin: 30px auto 0 auto;
-          width: 80%;
-          text-align: center;
-          .playing-lyric {
-            height: 20px;
-            line-height: 20px;
-            font-size: $font-size-medium;
-            color: $color-text-l;
-          }
-        }
-      }
-      .middle-r {
-        display: inline-block;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-        vertical-align: top;
-        .lyric-wrapper {
-          overflow: hidden;
-          margin: 0 auto;
-          width: 80%;
-          text-align: center;
-          .text {
-            line-height: 32px;
-            font-size: $font-size-medium;
-            color: $color-text-l;
-            &.current {
-              color: $color-text;
-            }
-          }
-          .pure-music {
-            padding-top: 50%;
-            line-height: 32px;
-            font-size: $font-size-medium;
-            color: $color-text-l;
-          }
-        }
-      }
-    }
-    .bottom {
-      position: absolute;
-      bottom: 50px;
-      width: 100%;
-      .dot-wrapper {
-        text-align: center;
-        font-size: 0;
-        .dot {
-          display: inline-block;
-          margin: 0 4px;
-          border-radius: 50%;
-          width: 8px;
-          height: 8px;
-          background: $color-text-l;
-          vertical-align: middle;
-          &.active {
-            border-radius: 5px;
-            width: 20px;
-            background: $color-text-ll;
-          }
-        }
-      }
-      .progress-wrapper {
-        display: flex;
-        align-items: center;
-        margin: 0 auto;
-        padding: 10px 0;
-        width: 80%;
-        .time {
-          flex: 0 0 40px;
-          width: 40px;
-          line-height: 30px;
-          font-size: $font-size-small;
-          color: $color-text-d;
-          transition: all 0.1s;
+				.cd-wrapper {
+					position: absolute;
+					left: 10%;
+					top: 22%;
+					box-sizing: border-box;
+					width: 80%;
+					height: 100%;
+					.cd {
+						border-radius: 50%;
+						width: 100%;
+						height: 100%;
+						img {
+							position: absolute;
+							left: 0;
+							top: 0;
+							box-sizing: border-box;
+							padding: 50px;
+							border: 10px solid rgba(255, 255, 255, .1);
+							border-radius: 50%;
+							width: 100%;
+							height: 100%;
+							background-image: url("../../assets/images/cd-outter.png");
+							background-repeat: no-repeat;
+							background-size: 100%;
+						}
+						.playing-cd {
+							animation: rotate 20s linear infinite;
+						}
+					}
+				}
+				.playing-lyric-wrapper {
+					overflow: hidden;
+					margin: 23% auto 0 auto;
+					width: 80%;
+					text-align: center;
+					.playing-lyric {
+						height: 20px;
+						line-height: 20px;
+						font-size: $font-size-medium;
+						color: $color-text-l;
+					}
+				}
+			}
+			.middle-r {
+				display: inline-block;
+				overflow: hidden;
+				width: 100%;
+				height: 100%;
+				vertical-align: top;
+				.lyric-wrapper {
+					overflow: hidden;
+					margin: 0 auto;
+					width: 80%;
+					text-align: center;
+					.text {
+						line-height: 32px;
+						font-size: $font-size-medium;
+						color: $color-text-g;
+						transition: color .6s;
+						&.current {
+							color: $color-text-w;
+						}
+					}
+					.pure-music {
+						padding-top: 50%;
+						line-height: 32px;
+						font-size: $font-size-medium;
+						color: $color-text-l;
+					}
+				}
+			}
+		}
+		.bottom {
+			position: absolute;
+			bottom: 50px;
+			width: 100%;
+			.dot-wrapper {
+				text-align: center;
+				font-size: 0;
+				.dot {
+					display: inline-block;
+					margin: 0 4px;
+					border-radius: 50%;
+					width: 8px;
+					height: 8px;
+					background: $color-text-l;
+					vertical-align: middle;
+					&.active {
+						border-radius: 5px;
+						width: 20px;
+						background: $color-text-ll;
+					}
+				}
+			}
+			.progress-wrapper {
+				display: flex;
+				align-items: center;
+				margin: 0 auto;
+				padding: 10px 0;
+				width: 80%;
+				.time {
+					flex: 0 0 40px;
+					width: 40px;
+					line-height: 30px;
+					font-size: $font-size-small;
+					color: $color-text-d;
+					transition: all .1s;
 
-          -moz-transition: all 0.1s;
-          -webkit-transition: all 0.1s;
-          &.time-l {
-            text-align: left;
-          }
-          &.time-touching {
-            color: $color-text-l;
-          }
-          &.time-r {
-            text-align: right;
-          }
-        }
-        .progress-bar-wrapper {
-          flex: 1;
-        }
-      }
-      .operators {
-        display: flex;
-        align-items: center;
-        .icon {
-          flex: 1;
-          color: $color-theme;
-          .like-color {
-            color: #d81e06;
-          }
-          &.disable {
-            color: $color-theme-d;
-          }
-          i {
-            font-size: 30px;
-          }
-        }
-        .i-left {
-          text-align: right;
-        }
-        .i-center {
-          padding: 0 20px;
-          text-align: center;
-          i {
-            font-size: 50px;
-          }
-        }
-        .i-right {
-          text-align: left;
-        }
-        .icon-favorite {
-          color: $color-sub-theme;
-        }
-      }
-    }
-    &.normal-enter-active,
-    &.normal-leave-active {
-      transition: all 0.6s;
-      .top,
-      .bottom {
-        transition: all 0.6s cubic-bezier(0.45, 0, 0.55, 1);
-      }
-    }
-    &.normal-enter-from,
-    &.normal-leave-to {
-      opacity: 0;
-      .top {
-        transform: translate3d(0, -100px, 0);
-      }
-      .bottom {
-        transform: translate3d(0, 100px, 0);
-      }
-    }
-  }
+					-moz-transition: all .1s;
+					-webkit-transition: all .1s;
+					&.time-l {
+						text-align: left;
+					}
+					&.time-touching {
+						color: $color-text-l;
+					}
+					&.time-r {
+						text-align: right;
+					}
+				}
+				.progress-bar-wrapper {
+					flex: 1;
+				}
+			}
+			.operators {
+				display: flex;
+				align-items: center;
+				.icon {
+					flex: 1;
+					color: $color-theme;
+					.like-color {
+						color: #d81e06;
+					}
+					&.disable {
+						color: $color-theme-d;
+					}
+					i {
+						font-size: 30px;
+					}
+				}
+				.i-left {
+					text-align: right;
+				}
+				.i-center {
+					padding: 0 20px;
+					text-align: center;
+					i {
+						font-size: 50px;
+					}
+				}
+				.i-right {
+					text-align: left;
+				}
+				.icon-favorite {
+					color: $color-sub-theme;
+				}
+			}
+		}
+		&.normal-enter-active,
+		&.normal-leave-active {
+			transition: all .6s;
+			.top,
+			.bottom {
+				transition: all .6s cubic-bezier(.45, 0, .55, 1);
+			}
+		}
+		&.normal-enter-from,
+		&.normal-leave-to {
+			opacity: 0;
+			.top {
+				transform: translate3d(0, -100px, 0);
+			}
+			.bottom {
+				transform: translate3d(0, 100px, 0);
+			}
+		}
+	}
 }
 </style>
