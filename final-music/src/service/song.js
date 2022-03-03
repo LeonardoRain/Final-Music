@@ -20,3 +20,24 @@ export function processSongs(songs) {
       });
   });
 }
+
+const lyricMap = {};
+
+export function getLyric(song) {
+  if (song.lyric) {
+    return Promise.resolve(song.lyric);
+  }
+  // 应对不同 song 对象 mid 可能一致的情况（加入不同的歌单，故用 mid 作为 key 来构造歌词 map）
+  const mid = song.mid;
+  const lyric = lyricMap[mid];
+  if (lyric) {
+    return Promise.resolve(lyric);
+  }
+  return get("/api/getLyric", {
+    mid,
+  }).then((res) => {
+    const lyric = res ? res.lyric : "[00:00:00]该歌曲暂时无法获取歌词";
+    lyricMap[mid] = lyric;
+    return lyric;
+  });
+}
