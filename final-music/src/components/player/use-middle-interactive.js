@@ -11,6 +11,7 @@ export default function useMiddleInteractive() {
   function onMiddleTouchStart(e) {
     touch.startX = e.touches[0].pageX;
     touch.startY = e.touches[0].pageY;
+    // 定义方向锁，仅允许同时向一个方向滑动
     touch.directionLocked = "";
   }
 
@@ -18,13 +19,16 @@ export default function useMiddleInteractive() {
     const deltaX = e.touches[0].pageX - touch.startX;
     const deltaY = e.touches[0].pageY - touch.startY;
 
+    // 求得滑动 X 水平方向 和 Y 垂直方向的滑动距离绝对值
     const absDeltaX = Math.abs(deltaX);
     const absDeltaY = Math.abs(deltaY);
 
+    // 锁：h-horizontal，v-vertical
     if (!touch.directionLocked) {
       touch.directionLocked = absDeltaX >= absDeltaY ? "h" : "v";
     }
 
+    // 如果是垂直锁，则不允许水平拖动
     if (touch.directionLocked === "v") {
       return;
     }
