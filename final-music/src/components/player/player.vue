@@ -134,12 +134,13 @@ import { useStore } from "vuex";
 import { formatTime } from "@/assets/js/util.js";
 import { PLAY_MODE } from "@/assets/js/constant";
 // hooks
-import useMode from "./useMode";
-import useFavorite from "./useFavorite";
+import useMode from "./use-mode";
+import useFavorite from "./use-favorite";
 import useCd from "./use-cd";
 import useLyric from "./use-lyric";
 import useMiddleInteractive from "./use-middle-interactive";
 import useAnimation from "./use-animation";
+import usePlayHistory from "./use-play-history";
 // components
 import ProgressBar from "./progress-bar.vue";
 import Scroll from "@/components/base/scroll/scroll";
@@ -202,6 +203,8 @@ export default {
     // 使用 动画 相关 hook
     const { cdWrapperRef, enter, afterEnter, leave, afterLeave } =
       useAnimation();
+    // 使用 播放历史 hook
+    const { savePlay } = usePlayHistory();
     // ----------------- computed -----------------
     // 播放 / 暂停 按钮，动态样式
     const playIcon = computed(() => {
@@ -323,6 +326,7 @@ export default {
       }
       songReady.value = true;
       playLyric();
+      savePlay(currentSong.value);
     }
     // 如果歌曲有问题，手动将 songReady 置为 true，以便播放其他歌曲
     function error() {
