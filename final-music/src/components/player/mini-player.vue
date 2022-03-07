@@ -103,7 +103,7 @@ export default {
   height: 60px;
   background: $color-theme-op;
   .cd-wrapper {
-    margin: -20px 10px 0 10px;
+    margin: 0 10px 20px 10px;
     width: 60px;
     height: 60px;
     .cd {
@@ -148,12 +148,11 @@ export default {
           display: flex;
           justify-content: flex-start;
           align-items: center;
-          width: 50%;
+          width: 80%;
           height: 60px;
           color: $color-text-w;
           .name {
             margin-bottom: 2px;
-            max-width: 50%;
             height: 60px;
             line-height: 60px;
             font-size: $font-size-medium;
@@ -163,11 +162,11 @@ export default {
           .divider {
             margin: 0 3px;
             width: 5px;
-            max-width: 40%;
             height: 1px;
             background-color: $color-text-w;
           }
           .desc {
+            flex: 1;
             height: 60px;
             line-height: 60px;
             font-size: $font-size-small;

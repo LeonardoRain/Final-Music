@@ -23,5 +23,6 @@ module.exports = {
         "x-invalid-end-tag": false,
       },
     ],
+    "no-unused-vars": "off",
   },
 };
