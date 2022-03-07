@@ -52,8 +52,7 @@ export default {
 
   watch: {
     progress(newProgress) {
-      const barWidth = this.$el.clientWidth - progressBtnWidth;
-      this.offset = barWidth * newProgress;
+      this.setOffset(newProgress);
     },
   },
   created() {
@@ -88,6 +87,11 @@ export default {
       const barWidth = this.$el.clientWidth - progressBtnWidth;
       const progress = Math.max(0, Math.min(1, offsetWidth / barWidth));
       this.$emit("progress-changed", progress);
+    },
+    // 设置进度条偏移
+    setOffset(progress) {
+      const barWidth = this.$el.clientWidth - progressBtnWidth;
+      this.offset = barWidth * progress;
     },
   },
 };

@@ -104,7 +104,7 @@ export default {
 		.title {
 			padding-left: 20px;
 			height: 30px;
-			background: $color-highlight-background;
+			background: $color-theme-op;
 			line-height: 30px;
 			font-size: $font-size-small;
 			color: $color-text-w;
@@ -134,7 +134,7 @@ export default {
 		.fixed-title {
 			padding-left: 20px;
 			height: 30px;
-			background: $color-highlight-background;
+			background: $color-theme-op;
 			line-height: 30px;
 			font-size: $font-size-small;
 			color: $color-text-w;

@@ -1,5 +1,5 @@
 <template>
-  <div class="player">
+  <div class="player" v-show="playlist.length">
     <div class="normal-player" v-show="fullScreen">
       <div class="background">
         <img :src="currentSong.pic" />
@@ -72,6 +72,7 @@
           </span>
           <div class="progress-bar-wrapper">
             <progress-bar
+              ref="barRef"
               :progress="progress"
               @progress-changing="handleProgressChanging"
               @progress-changed="handleProgressChanged"
@@ -103,6 +104,7 @@
         </div>
       </div>
     </div>
+    <mini-player :progress="progress" :toggle-play="togglePlay"></mini-player>
     <audio
       ref="audioRef"
       @pause="pause"
@@ -115,26 +117,34 @@
 </template>
 
 <script>
-import { computed, watch, ref } from "vue";
+import { computed, watch, ref, nextTick } from "vue";
 import { useStore } from "vuex";
+// constant
+import { formatTime } from "@/assets/js/util.js";
+import { PLAY_MODE } from "@/assets/js/constant";
+// hooks
 import useMode from "./useMode";
 import useFavorite from "./useFavorite";
 import useCd from "./use-cd";
 import useLyric from "./use-lyric";
 import useMiddleInteractive from "./use-middle-interactive";
+// components
 import ProgressBar from "./progress-bar.vue";
-import { formatTime } from "@/assets/js/util.js";
-import { PLAY_MODE } from "@/assets/js/constant";
 import Scroll from "@/components/base/scroll/scroll";
+import MiniPlayer from "@/components/player/mini-player";
 
 export default {
   name: "player",
   components: {
     ProgressBar,
     Scroll,
+    MiniPlayer,
   },
   setup() {
     // ----------------- data -----------------
+    // progressBar 组件实例
+    const barRef = ref(null);
+    // audio 实例
     const audioRef = ref(null);
     // 当前歌曲是否准备好播放
     const songReady = ref(false);
@@ -217,6 +227,13 @@ export default {
       } else {
         audioEl.pause();
         stopLyric();
+      }
+    });
+    // 监听 fullScreen 的状态，计算 progressBar 的位置
+    watch(fullScreen, async (newFullScreen) => {
+      if (newFullScreen) {
+        await nextTick();
+        barRef.value.setOffset(progress.value);
       }
     });
     // ----------------- methods -----------------
@@ -329,11 +346,13 @@ export default {
 
     return {
       // data
+      barRef,
       audioRef,
       currentTime,
       // store
       fullScreen,
       currentSong,
+      playlist,
       // computed
       playIcon,
       disableCls,
@@ -564,7 +583,7 @@ export default {
 		}
 		.bottom {
 			position: absolute;
-			bottom: 50px;
+			bottom: 40px;
 			width: 100%;
 			.dot-wrapper {
 				text-align: center;

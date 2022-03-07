@@ -1,10 +1,10 @@
 @font-face {
-	src: url("../fonts/music-icon.eot?t=1646104547879");
-	src: url("../fonts/music-icon.eot?t=1646104547879#iefix")
+	src: url("../fonts/music-icon.eot?t=1646378602205");
+	src: url("../fonts/music-icon.eot?t=1646378602205#iefix")
 	format("embedded-opentype"),
-	url("../fonts/music-icon.ttf?t=1646104547879") format("truetype"),
-	url("../fonts/music-icon.woff?t=1646104547879") format("woff"),
-	url("../fonts/music-icon.svg?t=1646104547879#iconfont") format("svg");
+	url("../fonts/music-icon.ttf?t=1646378602205") format("truetype"),
+	url("../fonts/music-icon.woff?t=1646378602205") format("woff"),
+	url("../fonts/music-icon.svg?t=1646378602205#iconfont") format("svg");
 	font-family: "music-icon";
 	font-style: normal;
 	font-weight: normal;
@@ -26,13 +26,12 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.iconfont {
-	font-family: "iconfont" !important;
-	font-style: normal;
-	font-size: 16px;
+.icon-play-mini:before {
+	content: "\e602";
+}
 
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+.icon-pause-mini:before {
+	content: "\e653";
 }
 
 .icon-add:before {
@@ -43,16 +42,8 @@
 	content: "\e665";
 }
 
-.icon-play-mini:before {
-	content: "\e632";
-}
-
 .icon-play:before {
 	content: "\e89b";
-}
-
-.icon-pause-mini:before {
-	content: "\e650";
 }
 
 .icon-pause:before {
