@@ -79,8 +79,10 @@ export default {
 		height: 100%;
 		.item {
 			display: flex;
+			overflow: hidden;
 			margin: 0 20px;
-			padding-top: 20px;
+			margin-top: 20px;
+			border-radius: 6px;
 			height: 100px;
 			&:last-child {
 				padding-bottom: 20px;

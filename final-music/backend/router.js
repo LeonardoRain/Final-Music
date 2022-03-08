@@ -740,6 +740,9 @@ function registerSearch(app) {
         res.json(data);
       }
     });
+    // .catch((err) => {
+    //   console.log("err", err);
+    // });
   });
 }
 

@@ -1,7 +1,8 @@
 <template>
   <div class="header">
+    <h1 class="text">Final</h1>
     <span class="icon"></span>
-    <h1 class="text">Final Music</h1>
+    <h1 class="text">Music</h1>
   </div>
 </template>
 
@@ -19,8 +20,7 @@ export default {
 	color: $color-theme;
 	.icon {
 		display: inline-block;
-		margin-right: 9px;
-		margin-top: 6px;
+		margin: 6px 9px 0 9px;
 		width: 30px;
 		height: 32px;
 		background-size: 30px 32px;
