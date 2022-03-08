@@ -1,29 +1,24 @@
 <template>
-  <div class="singer-detail">
+  <div class="album">
     <music-list
       :songs="songs"
-      :loading="loading"
       :title="title"
       :pic="pic"
-      backUrl="singer"
+      :loading="loading"
+      backUrl="recommend"
     ></music-list>
   </div>
 </template>
 
 <script>
 import createDetailComponent from "@/assets/js/create-detail-component.js";
-import { getSingerDetail } from "@/service/singer.js";
-import { SINGER_KEY } from "@/assets/js/constant.js";
-
-export default createDetailComponent(
-  "singer-detail",
-  SINGER_KEY,
-  getSingerDetail
-);
+import { getAlbum } from "@/service/recommend.js";
+import { ALBUM_KEY } from "@/assets/js/constant.js";
+export default createDetailComponent("album", ALBUM_KEY, getAlbum);
 </script>
 
 <style lang="scss" scoped>
-.singer-detail {
+.album {
   position: fixed;
   left: 0;
   right: 0;

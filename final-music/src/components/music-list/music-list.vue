@@ -56,6 +56,10 @@ export default {
       type: String,
       default: "这里空空如也...",
     },
+    backUrl: {
+      type: String,
+      default: "recommend",
+    },
   },
   data() {
     return {
@@ -121,7 +125,7 @@ export default {
   },
   methods: {
     goBack() {
-      this.$router.push("/singer");
+      this.$router.push(`/${this.backUrl}`);
     },
     onScroll(pos) {
       this.scrollY = -pos.y;
