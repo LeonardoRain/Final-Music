@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Scroll from "@/components/base/scroll/scroll";
+import Scroll from "@/components/wrap-scroll/index";
 import useFixed from "./use-fixed";
 import useShortcut from "./use-shortcut";
 
@@ -94,72 +94,72 @@ export default {
 
 <style lang="scss" scoped>
 .index-list {
-	overflow: hidden;
-	position: relative;
-	width: 100%;
-	height: 100%;
-	background: $color-background;
-	.group {
-		padding-bottom: 30px;
-		.title {
-			padding-left: 20px;
-			height: 30px;
-			background: $color-theme-op;
-			line-height: 30px;
-			font-size: $font-size-small;
-			color: $color-text-w;
-		}
-		.item {
-			display: flex;
-			align-items: center;
-			padding: 20px 0 0 30px;
-			.avatar {
-				border-radius: 50%;
-				width: 50px;
-				height: 50px;
-			}
-			.name {
-				margin-left: 20px;
-				font-size: $font-size-medium;
-				color: $color-text;
-			}
-		}
-	}
-	.fixed {
-		position: absolute;
-		left: 0;
-		top: -1px;
-		border-bottom: 1px solid #add1e2;
-		width: 100%;
-		.fixed-title {
-			padding-left: 20px;
-			height: 30px;
-			background: $color-theme-op;
-			line-height: 30px;
-			font-size: $font-size-small;
-			color: $color-text-w;
-		}
-	}
-	.shortcut {
-		position: absolute;
-		right: 4px;
-		top: 50%;
-		padding: 20px 0;
-		border-radius: 10px;
-		width: 20px;
-		background: $color-background-d;
-		text-align: center;
-		font-family: Helvetica;
-		transform: translateY(-50%);
-		.item {
-			padding: 3px;
-			line-height: 1;
-			font-size: $font-size-small;
-			color: $color-text-l;
-			&.current {
-				color: $color-theme;
-			}
-		}
-	}
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: $color-background;
+  .group {
+    padding-bottom: 30px;
+    .title {
+      padding-left: 20px;
+      height: 30px;
+      background: $color-theme-op;
+      line-height: 30px;
+      font-size: $font-size-small;
+      color: $color-text-w;
+    }
+    .item {
+      display: flex;
+      align-items: center;
+      padding: 20px 0 0 30px;
+      .avatar {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+      }
+      .name {
+        margin-left: 20px;
+        font-size: $font-size-medium;
+        color: $color-text;
+      }
+    }
+  }
+  .fixed {
+    position: absolute;
+    left: 0;
+    top: -1px;
+    border-bottom: 1px solid #add1e2;
+    width: 100%;
+    .fixed-title {
+      padding-left: 20px;
+      height: 30px;
+      background: $color-theme-op;
+      line-height: 30px;
+      font-size: $font-size-small;
+      color: $color-text-w;
+    }
+  }
+  .shortcut {
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    padding: 20px 0;
+    border-radius: 10px;
+    width: 20px;
+    background: $color-background-d;
+    text-align: center;
+    font-family: Helvetica;
+    transform: translateY(-50%);
+    .item {
+      padding: 3px;
+      line-height: 1;
+      font-size: $font-size-small;
+      color: $color-text-l;
+      &.current {
+        color: $color-theme;
+      }
+    }
+  }
 }
 </style>
