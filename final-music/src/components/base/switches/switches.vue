@@ -50,7 +50,7 @@ export default {
 	position: relative;
 	align-items: center;
 	margin: 0 auto;
-	border: 1px solid $color-highlight-background;
+	border: 1px solid $color-theme;
 	border-radius: 5px;
 	width: 240px;
 	.switch-item {
@@ -61,9 +61,9 @@ export default {
 		line-height: 30px;
 		text-align: center;
 		font-size: $font-size-medium;
-		color: $color-text-d;
+		color: $color-theme;
 		&.active {
-			color: $color-text;
+			color: $color-theme-l;
 		}
 	}
 	.active-bar {

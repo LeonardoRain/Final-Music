@@ -159,69 +159,69 @@ export default {
 
 <style lang="scss" scoped>
 .add-song {
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	z-index: 300;
-	width: 100%;
-	background: $color-background;
-	.header {
-		position: relative;
-		height: 44px;
-		text-align: center;
-		.title {
-			line-height: 44px;
-			font-size: $font-size-large;
-			color: $color-text;
-		}
-		.close {
-			position: absolute;
-			right: 8px;
-			top: 0;
-			.icon-close {
-				display: block;
-				padding: 12px;
-				font-size: 20px;
-				color: $color-theme;
-			}
-		}
-	}
-	.search-input-wrapper {
-		margin: 20px;
-	}
-	.list-wrapper {
-		position: absolute;
-		top: 165px;
-		bottom: 0;
-		width: 100%;
-		.list-scroll {
-			overflow: hidden;
-			height: 100%;
-			.list-inner {
-				padding: 20px 30px;
-			}
-		}
-	}
-	.search-result {
-		position: fixed;
-		top: 124px;
-		bottom: 0;
-		width: 100%;
-	}
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: 300;
+  width: 100%;
+  background: $color-background;
+  .header {
+    position: relative;
+    height: 44px;
+    text-align: center;
+    .title {
+      line-height: 44px;
+      font-size: $font-size-large;
+      color: $color-text;
+    }
+    .close {
+      position: absolute;
+      right: 8px;
+      top: 0;
+      .icon-close {
+        display: block;
+        padding: 12px;
+        font-size: 20px;
+        color: $color-theme;
+      }
+    }
+  }
+  .search-input-wrapper {
+    margin: 20px;
+  }
+  .list-wrapper {
+    position: absolute;
+    top: 165px;
+    bottom: 0;
+    width: 100%;
+    .list-scroll {
+      overflow: hidden;
+      height: 100%;
+      .list-inner {
+        padding: 20px 30px;
+      }
+    }
+  }
+  .search-result {
+    position: fixed;
+    top: 124px;
+    bottom: 0;
+    width: 100%;
+  }
 }
 
 .message-title {
-	padding: 18px 0;
-	text-align: center;
-	font-size: 0;
-	.icon-ok {
-		margin-right: 4px;
-		font-size: $font-size-medium;
-		color: $color-theme;
-	}
-	.text {
-		font-size: $font-size-medium;
-		color: $color-text;
-	}
+  padding: 18px 0;
+  text-align: center;
+  font-size: 0;
+  .icon-ok {
+    margin-right: 4px;
+    font-size: $font-size-medium;
+    color: $color-theme;
+  }
+  .text {
+    font-size: $font-size-medium;
+    color: $color-text;
+  }
 }
 </style>

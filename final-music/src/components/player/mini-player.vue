@@ -78,7 +78,6 @@ export default {
       store.commit("setFullScreen", true);
     }
     function showPlaylist() {
-      console.log("playlistRef.value", playlistRef.value.show);
       playlistRef.value.show();
     }
 

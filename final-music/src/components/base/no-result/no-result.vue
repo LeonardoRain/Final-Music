@@ -12,7 +12,7 @@ export default {
   name: 'no-result',
   data() {
     return {
-      title: '抱歉，没有结果'
+      title: '这里空空如也...'
     }
   },
   methods: {

@@ -11,6 +11,9 @@
           {{ getRankText(index) }}
         </span>
       </div>
+      <div class="music" v-if="!rank">
+        <i class="icon icon-music"></i>
+      </div>
       <div class="content">
         <h2 class="name">{{ song.name }}</h2>
         <p class="desc">{{ getDesc(song) }}</p>
@@ -65,7 +68,7 @@ export default {
 		font-size: $font-size-medium;
 		.rank {
 			flex: 0 0 25px;
-			margin-right: 20px;
+			margin: 0 20px 0 -10px;
 			width: 25px;
 			text-align: center;
 			.icon {
@@ -88,6 +91,21 @@ export default {
 				}
 			}
 		}
+		.music {
+			flex: 0 0 25px;
+			margin: 0 15px 0 -15px;
+			width: 25px;
+			text-align: center;
+			.icon {
+				display: inline-block;
+				width: 25px;
+				height: 24px;
+				background-size: 25px 24px;
+				font-size: 25px;
+				color: $color-theme;
+			}
+		}
+
 		.content {
 			overflow: hidden;
 			flex: 1;
