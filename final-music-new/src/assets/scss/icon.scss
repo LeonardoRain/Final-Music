@@ -1,0 +1,131 @@
+@font-face {
+	src: url("../fonts/music-icon.eot?t=1646378602205");
+	src: url("../fonts/music-icon.eot?t=1646378602205#iefix")
+	format("embedded-opentype"),
+	url("../fonts/music-icon.ttf?t=1646378602205") format("truetype"),
+	url("../fonts/music-icon.woff?t=1646378602205") format("woff"),
+	url("../fonts/music-icon.svg?t=1646378602205#iconfont") format("svg");
+	font-family: "music-icon";
+	font-style: normal;
+	font-weight: normal;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+	line-height: 1;
+	text-transform: none;
+	font-family: "music-icon" !important;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	/* use !important to prevent issues with browser extensions that change fonts */
+
+	speak: none;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-play-mini:before {
+	content: "\e602";
+}
+
+.icon-pause-mini:before {
+	content: "\e653";
+}
+
+.icon-add:before {
+	content: "\e6cd";
+}
+
+.icon-music:before {
+	content: "\e665";
+}
+
+.icon-play:before {
+	content: "\e89b";
+}
+
+.icon-pause:before {
+	content: "\e89c";
+}
+
+.icon-close:before {
+	content: "\e604";
+}
+
+.icon-ok:before {
+	content: "\e66f";
+}
+
+.icon-dismiss:before {
+	content: "\e644";
+}
+
+.icon-play-fill:before {
+	content: "\e72f";
+}
+
+.icon-no-copy:before {
+	content: "\e89d";
+}
+
+.icon-add-copy:before {
+	content: "\e89e";
+}
+
+.icon-sequence:before {
+	content: "\e601";
+}
+
+.icon-search:before {
+	content: "\e65a";
+}
+
+.icon-clear:before {
+	content: "\e633";
+}
+
+.icon-my:before {
+	content: "\e78b";
+}
+
+.icon-mine:before {
+	content: "\e610";
+}
+
+.icon-back:before {
+	content: "\e679";
+}
+
+.icon-down:before {
+	content: "\e65e";
+}
+
+.icon-loop:before {
+	content: "\e85a";
+}
+
+.icon-like:before {
+	content: "\e707";
+}
+
+.icon-not-like:before {
+	content: "\e708";
+}
+
+.icon-playlist:before {
+	content: "\e600";
+}
+
+.icon-random:before {
+	content: "\e73a";
+}
+
+.icon-prev:before {
+	content: "\e896";
+}
+
+.icon-next:before {
+	content: "\e89a";
+}
