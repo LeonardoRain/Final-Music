@@ -4,6 +4,9 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	server: {
+		host: "192.168.31.214",
+	},
 	plugins: [vue()],
 	resolve: {
 		alias: {
