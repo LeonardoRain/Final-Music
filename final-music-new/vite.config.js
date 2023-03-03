@@ -4,9 +4,6 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	server: {
-		host: "192.168.31.214",
-	},
 	plugins: [vue()],
 	resolve: {
 		alias: {
@@ -22,6 +19,12 @@ export default defineConfig({
 				  @import "@/assets/scss/mixin.scss";
 				`,
 			},
+		},
+	},
+	server: {
+		// host: true, // 监听所有地址
+		proxy: {
+			"/api": "http://localhost:9002",
 		},
 	},
 });
