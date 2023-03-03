@@ -1,11 +1,7 @@
 # Final-Music
 # 项目简介
 
----
-
 ## 技术栈设计
-
----
 
 ### Vue 3.0
 
@@ -53,8 +49,6 @@
 - **播放器相关组件：`useAnimation`、`useCd`、`useFavorite`、`useLyric`、`useMiddleInteractive`、`useMiniSlider`、`useMode`、`usePlayHistory`**
 
 ## 组件架构设计
-
----
 
 ### **10 个线上真实接口模块**
 
