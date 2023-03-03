@@ -103,3 +103,10 @@
 - **`WrapScoll`：业务滚动组件**
 
 ### 6 个 JS 模块
+
+- **`array-store`：数组类型数据本地存储辅助模块**
+- **`constant`：常量数据模块**
+- **`create-detail-component`：创建通用详情页面组件模块**
+- **`create-loading-like-derective`：创建类似 loading 效果的自定义指令模块**
+- **`dom`：DOM 操作辅助模块**
+- **`util`：工具库模块**
