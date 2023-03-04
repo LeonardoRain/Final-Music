@@ -4,7 +4,7 @@
 	</div>
 </template>
 
-<script setup>
+<script setup name="scroll">
 import { ref, defineProps } from "vue";
 import useScroll from "./useScroll";
 

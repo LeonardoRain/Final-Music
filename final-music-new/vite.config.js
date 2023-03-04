@@ -23,7 +23,7 @@ export default defineConfig({
 		},
 	},
 	server: {
-		// host: true, // 监听所有地址
+		host: true, // 监听所有地址
 		proxy: {
 			"/api": "http://localhost:9002",
 		},
