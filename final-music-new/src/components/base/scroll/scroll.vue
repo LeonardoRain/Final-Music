@@ -21,5 +21,7 @@ const props = defineProps({
 const emit = defineEmits(["scroll"]);
 
 const rootRef = ref(null);
-useScroll(rootRef, props, emit);
+const scroll = useScroll(rootRef, props, emit);
+
+defineExpose({ scroll });
 </script>
