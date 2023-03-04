@@ -10,7 +10,7 @@
 <script setup name="loading">
 import { ref } from "vue";
 
-const title = ref("");
+const title = ref("正在载入...");
 const setTitle = function (newTitle) {
 	title.value = newTitle;
 };

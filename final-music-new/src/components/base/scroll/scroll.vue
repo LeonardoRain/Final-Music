@@ -13,7 +13,13 @@ const props = defineProps({
 		type: Boolean,
 		default: true,
 	},
+	probeType: {
+		type: Number,
+		default: 0,
+	},
 });
+const emit = defineEmits(["scroll"]);
+
 const rootRef = ref(null);
-useScroll(rootRef, props);
+useScroll(rootRef, props, emit);
 </script>

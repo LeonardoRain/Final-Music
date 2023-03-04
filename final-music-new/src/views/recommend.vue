@@ -1,5 +1,5 @@
 <template>
-	<div class="recommend" v-loading:[loadingText]="loading">
+	<div class="recommend" v-loading="loading">
 		<Scroll class="recommend-content">
 			<div>
 				<div class="slider-wrapper">
@@ -31,21 +31,21 @@
 </template>
 
 <script setup name="recommend">
-import { onMounted, ref, computed } from "vue";
+import { ref, computed } from "vue";
 import { getRecommend } from "@/service/recommend";
 import Slider from "@/components/base/slider/slider.vue";
 import Scroll from "@/components/base/scroll/scroll.vue";
 
 const sliders = ref([]);
 const albums = ref([]);
-const loadingText = ref("正在载入...");
 const loading = computed(() => !sliders.value.length && !albums.value.length);
 
-onMounted(async function () {
+async function fetchRecommend() {
 	const result = await getRecommend();
 	sliders.value = result.sliders;
 	albums.value = result.albums;
-});
+}
+fetchRecommend();
 </script>
 
 <style lang="scss" scoped>
