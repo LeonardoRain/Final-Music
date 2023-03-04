@@ -2,11 +2,6 @@
 	<div class="singer">歌手页面</div>
 </template>
 
-<script>
-export default {
-	name: "singer",
-	components: {},
-};
-</script>
+<script setup name="singer"></script>
 
 <style lang="scss" scoped></style>

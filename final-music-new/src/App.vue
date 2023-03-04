@@ -1,16 +1,24 @@
 <template>
-	<m-header></m-header>
-	<tab></tab>
-	<router-view></router-view>
+	<MHeader></MHeader>
+	<Tab></Tab>
+	<router-view v-slot="{ Component }">
+		<Transition>
+			<component :is="Component" />
+		</Transition>
+	</router-view>
 </template>
 
-<script>
-import Header from "@/components/header/header.vue";
+<script setup>
+import MHeader from "@/components/header/header.vue";
 import Tab from "@/components/tab/tab.vue";
-export default {
-	components: {
-		MHeader: Header,
-		Tab,
-	},
-};
 </script>
+
+<style lang="scss">
+.v-enter-active {
+	transition: opacity 0.7s ease;
+}
+.v-enter-from,
+.v-leave-to {
+	opacity: 0;
+}
+</style>

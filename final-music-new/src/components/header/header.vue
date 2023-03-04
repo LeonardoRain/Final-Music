@@ -9,11 +9,7 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "m-header",
-};
-</script>
+<script setup name="m-header"></script>
 
 <style lang="scss" scoped>
 .header {

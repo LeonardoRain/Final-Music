@@ -2,11 +2,6 @@
 	<div class="top-list">榜单页面</div>
 </template>
 
-<script>
-export default {
-	name: "top-list",
-	components: {},
-};
-</script>
+<script setup name="todo-list"></script>
 
 <style lang="scss" scoped></style>
