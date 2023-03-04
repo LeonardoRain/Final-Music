@@ -23,7 +23,10 @@ import { ref, defineProps } from "vue";
 import useSlider from "./useSlider";
 
 defineProps({
-	sliders: Array,
+	sliders: {
+		type: Array,
+		default: [],
+	},
 });
 
 const rootRef = ref(null);

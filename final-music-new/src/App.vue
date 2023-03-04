@@ -1,11 +1,7 @@
 <template>
 	<MHeader></MHeader>
 	<Tab></Tab>
-	<router-view v-slot="{ Component }">
-		<Transition>
-			<component :is="Component" />
-		</Transition>
-	</router-view>
+	<router-view></router-view>
 </template>
 
 <script setup>
