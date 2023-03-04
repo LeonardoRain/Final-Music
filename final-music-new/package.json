@@ -24,6 +24,7 @@
 		"pinyin": "2.10.2",
 		"vue": "^3.2.0",
 		"vue-router": "4",
+		"vue3-lazy": "1.0.0-alpha.1",
 		"xsrf": "^1.0.0"
 	},
 	"devDependencies": {

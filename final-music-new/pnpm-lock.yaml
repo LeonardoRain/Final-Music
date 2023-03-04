@@ -20,6 +20,7 @@ specifiers:
   vite-plugin-vue-setup-extend: ^0.4.0
   vue: ^3.2.0
   vue-router: '4'
+  vue3-lazy: 1.0.0-alpha.1
   xsrf: ^1.0.0
 
 dependencies:
@@ -38,6 +39,7 @@ dependencies:
   pinyin: 2.10.2
   vue: 3.2.0
   vue-router: 4.1.6_vue@3.2.0
+  vue3-lazy: 1.0.0-alpha.1_vue@3.2.0
   xsrf: 1.0.0
 
 devDependencies:
@@ -1724,6 +1726,15 @@ packages:
       '@vue/compiler-dom': 3.2.0
       '@vue/runtime-dom': 3.2.0
       '@vue/shared': 3.2.0
+
+  /vue3-lazy/1.0.0-alpha.1_vue@3.2.0:
+    resolution: {integrity: sha512-dpjpKK4DC5q+wZVtS/VY3X6pYBJHxRmYanr20s39RB6o6fvbneQ/DNuz37bipYfEdrEvbSZ95Y2SCexuznQNrQ==}
+    engines: {node: '>=6.0.0'}
+    peerDependencies:
+      vue: ^3.0.0-alpha.9
+    dependencies:
+      vue: 3.2.0
+    dev: false
 
   /webidl-conversions/3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}

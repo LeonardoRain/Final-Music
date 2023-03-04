@@ -16,7 +16,7 @@
 							:key="item.id"
 							@click="handleSelectAlbum(item)">
 							<div class="icon">
-								<img width="60" height="60" :src="item.pic" alt="" />
+								<img width="60" height="60" v-lazy="item.pic" alt="" />
 							</div>
 							<div class="text">
 								<p class="title">{{ item.title }}</p>
@@ -53,8 +53,8 @@ onMounted(async function () {
 	bottom: 0;
 	width: 100%;
 	.recommend-content {
-		height: 100%;
 		overflow: hidden;
+		height: 100%;
 		.slider-wrapper {
 			overflow: hidden;
 			position: relative;
