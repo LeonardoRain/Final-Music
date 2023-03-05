@@ -374,7 +374,7 @@ function registerSingerDetail(app) {
 function registerSongsUrl(app) {
 	app.get("/api/getSongsUrl", (req, res) => {
 		const mid = req.query.mid;
-
+		console.log("mid :>> ", mid);
 		let midGroup = [];
 		// 第三方接口只支持最多处理 100 条数据，所以如果超过 100 条数据，我们要把数据按每组 100 条切割，发送多个请求
 		if (mid.length > 100) {
@@ -415,10 +415,12 @@ function registerSongsUrl(app) {
 
 			const sign = getSecuritySign(JSON.stringify(data));
 			const url = `https://u.y.qq.com/cgi-bin/musics.fcg?_=${getRandomVal()}&sign=${sign}`;
-
 			// 发送 post 请求
+			console.log("url :>> ", url);
+			console.log("req.data :>> ", data);
 			return post(url, data).then(response => {
 				const data = response.data;
+				console.log("data :>> ", data);
 				if (data.code === ERR_OK) {
 					const midInfo = data.req_0.data.midurlinfo;
 					const sip = data.req_0.data.sip;

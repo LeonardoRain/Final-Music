@@ -21,7 +21,7 @@
 
 <script>
 import { ref } from "vue";
-import useSlider from "./useSlide.js";
+import useSlider from "./useSlider.js";
 
 export default {
   name: "slider",
@@ -47,47 +47,47 @@ export default {
 
 <style lang="scss" scoped>
 .slider {
-	min-height: 1px;
-	font-size: 0;
+  min-height: 1px;
+  font-size: 0;
 
-	touch-action: pan-y;
-	.slider-group {
-		overflow: hidden;
-		position: relative;
-		white-space: nowrap;
-		.slider-page {
-			display: inline-block;
-			backface-visibility: hidden;
-			transform: translate3d(0, 0, 0);
-			a {
-				display: block;
-				width: 100%;
-			}
-			img {
-				display: block;
-				width: 100%;
-			}
-		}
-	}
-	.dots-wrapper {
-		position: absolute;
-		left: 50%;
-		bottom: 12px;
-		line-height: 12px;
-		transform: translateX(-50%);
-		.dot {
-			display: inline-block;
-			margin: 0 4px;
-			border-radius: 50%;
-			width: 8px;
-			height: 8px;
-			background: $color-text-l;
-			&.active {
-				border-radius: 5px;
-				width: 20px;
-				background: $color-text-ll;
-			}
-		}
-	}
+  touch-action: pan-y;
+  .slider-group {
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    .slider-page {
+      display: inline-block;
+      backface-visibility: hidden;
+      transform: translate3d(0, 0, 0);
+      a {
+        display: block;
+        width: 100%;
+      }
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
+  }
+  .dots-wrapper {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    line-height: 12px;
+    transform: translateX(-50%);
+    .dot {
+      display: inline-block;
+      margin: 0 4px;
+      border-radius: 50%;
+      width: 8px;
+      height: 8px;
+      background: $color-text-l;
+      &.active {
+        border-radius: 5px;
+        width: 20px;
+        background: $color-text-ll;
+      }
+    }
+  }
 }
 </style>
