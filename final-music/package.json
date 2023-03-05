@@ -14,6 +14,7 @@
 		"@better-scroll/pull-up": "^2.4.2",
 		"@better-scroll/slide": "^2.4.2",
 		"axios": "^0.26.0",
+		"cookie-parser": "^1.4.6",
 		"core-js": "^3.6.5",
 		"create-keyframe-animation": "^0.1.0",
 		"eslint-plugin-html": "^6.2.0",
@@ -24,7 +25,8 @@
 		"vue": "^3.0.0",
 		"vue-router": "^4.0.0-0",
 		"vue3-lazy": "^1.0.0-alpha.1",
-		"vuex": "^4.0.0-0"
+		"vuex": "^4.0.0-0",
+		"xsrf": "^1.0.0"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "~4.5.9",
