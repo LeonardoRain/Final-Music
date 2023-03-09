@@ -83,66 +83,66 @@ export default {
 
 <style lang="scss" scoped>
 .recommend {
-	position: fixed;
-	top: 88px;
-	bottom: 0;
-	width: 100%;
-	.recommend-content {
-		overflow: hidden;
-		height: 100%;
+  position: fixed;
+  top: 88px;
+  bottom: 0;
+  width: 100%;
+  .recommend-content {
+    overflow: hidden;
+    height: 100%;
 
-		.slider-wrapper {
-			overflow: hidden;
-			position: relative;
-			padding-top: 40%;
-			width: 100%;
-			height: 0;
-			.slider-content {
-				position: absolute;
-				left: 0;
-				top: 0;
-				width: 100%;
-				height: 100%;
-			}
-		}
-		/* 热门歌单列表 */
-		.recommend-list {
-			.list-title {
-				height: 65px;
-				line-height: 65px;
-				text-align: center;
-				font-size: $font-size-medium;
-				color: $color-theme;
-			}
-			.item {
-				display: flex;
-				align-items: center;
-				box-sizing: border-box;
-				padding: 0 20px 20px 20px;
-			}
-			.icon {
-				flex: 0 0 60px;
-				padding-right: 20px;
-				width: 60px;
-			}
-			.text {
-				display: flex;
-				overflow: hidden;
-				flex-direction: column;
-				justify-content: center;
-				flex: 1;
-				line-height: 20px;
-				font-size: $font-size-medium;
-			}
-			.title {
-				margin-bottom: 10px;
-				color: $color-text;
-			}
-			.name {
-				color: $color-text-d;
-			}
-		}
-	}
-	/* 轮播图 */
+    .slider-wrapper {
+      overflow: hidden;
+      position: relative;
+      padding-top: 40%;
+      width: 100%;
+      height: 0;
+      .slider-content {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+    }
+    /* 热门歌单列表 */
+    .recommend-list {
+      .list-title {
+        height: 65px;
+        line-height: 65px;
+        text-align: center;
+        font-size: $font-size-medium;
+        color: $color-theme;
+      }
+      .item {
+        display: flex;
+        align-items: center;
+        box-sizing: border-box;
+        padding: 0 20px 20px 20px;
+      }
+      .icon {
+        flex: 0 0 60px;
+        padding-right: 20px;
+        width: 60px;
+      }
+      .text {
+        display: flex;
+        overflow: hidden;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        line-height: 20px;
+        font-size: $font-size-medium;
+      }
+      .title {
+        margin-bottom: 10px;
+        color: $color-text;
+      }
+      .name {
+        color: $color-text-d;
+      }
+    }
+  }
+  /* 轮播图 */
 }
 </style>
